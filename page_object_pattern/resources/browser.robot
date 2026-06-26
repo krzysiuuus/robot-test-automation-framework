@@ -1,14 +1,55 @@
 *** Settings ***
 Library     SeleniumLibrary
+Library     String
 Resource    ../../config/config.robot
 
 *** Keywords ***
 Open Browser Page
-    Open Browser    about:blank    ${BROWSER}
-    Maximize Browser Window
-    Set Selenium Timeout    ${TIMEOUT}
+    Validate Browser
+    ${browser}=    Convert To Lower Case    ${BROWSER}
+
+    IF    '${browser}' == 'chrome'
+        Open Chrome Browser
+    ELSE IF    '${browser}' == 'firefox'
+        Open Firefox Browser
+    ELSE IF    '${browser}' == 'edge'
+        Open Edge Browser
+    END
+
+    Set Selenium Timeout          ${TIMEOUT}
     Set Selenium Implicit Wait    ${IMPLICIT_WAIT}
-    Set Selenium Speed    ${SELENIUM_SPEED}
+    Set Selenium Speed            ${SELENIUM_SPEED}
 
 Close Browser Page
     Close Browser
+
+Validate Browser
+    ${browser}=    Convert To Lower Case    ${BROWSER}
+
+    IF    '${browser}' == 'chrome'
+        RETURN
+    END
+
+    IF    '${browser}' == 'firefox'
+        RETURN
+    END
+
+    IF    '${browser}' == 'edge'
+        RETURN
+    END
+
+    Fail
+    ...    Unsupported browser: ${BROWSER}\n
+    ...    Supported browsers: Chrome, Firefox, Edge
+
+Open Chrome Browser
+    Open Browser    about:blank    Chrome
+    Maximize Browser Window
+
+Open Firefox Browser
+    Open Browser    about:blank    Firefox
+    Set Window Size    1920    1080
+
+Open Edge Browser
+    Open Browser    about:blank    Edge
+    Maximize Browser Window
