@@ -1,20 +1,24 @@
 *** Settings ***
-Library    SeleniumLibrary
-Library    DateTime
-Resource    ../pages/hotel_search.robot
-Resource    ../pages/hotel_search_results.robot
-Resource    ../pages/hotel_details.robot
-Resource    ../pages/flight_book.robot
-Resource    ../pages/hotel_invoice.robot
-Resource    ../pages/flight_invoice.robot
-Resource    ../data/hotel_test_data.robot
-Resource    ../resources/date_utils.robot
+Library          SeleniumLibrary
+
+Test Setup       Open Browser Page
+Test Teardown    Close Browser Page
+
+Resource         ../resources/browser.robot
+Resource         ../pages/hotel_search.robot
+Resource         ../pages/hotel_search_results.robot
+Resource         ../pages/hotel_details.robot
+Resource         ../pages/flight_book.robot
+Resource         ../pages/hotel_invoice.robot
+Resource         ../pages/flight_invoice.robot
+Resource         ../data/hotel_test_data.robot
+Resource         ../resources/date_utils.robot
 
 *** Test Cases ***
 User Can Search And Book Hotel
     [Documentation]    Test verifies complete hotel search and booking flow
     ${check_in}    ${check_out}=    Get Hotel Date Range
-    Open Hotels Page
+    Open PHP Travels Page
     Set City    ${TEST_HOTEL.city}
     Set Date Range    ${check_in}    ${check_out}
     Set Travellers    @{TEST_GUESTS}

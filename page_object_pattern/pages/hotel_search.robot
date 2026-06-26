@@ -1,7 +1,10 @@
+*** Settings ***
+Library    SeleniumLibrary
+Resource    ../../config/config.robot
+
 *** Keywords ***
-Open Hotels Page
-    Open Browser    http://www.kurs-selenium.pl/demo/    Chrome
-    Maximize Browser Window
+Open PHP Travels Page
+    Go To    ${PHP_BASE_URL}
 
 Set City
     [Arguments]    ${city}

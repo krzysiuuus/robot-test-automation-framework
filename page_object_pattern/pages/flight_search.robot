@@ -1,8 +1,8 @@
 *** Settings ***
 Library    SeleniumLibrary
+Resource    ../../config/config.robot
 
 *** Variables ***
-${HOME_URL}                    http://www.kurs-selenium.pl/demo/
 ${FLIGHTS_TAB}                 xpath://span[normalize-space(.)='Flights']
 ${ROUND_TRIP_RADIO}            xpath://div[@class='iradio_square-grey']
 ${CITY_DROPDOWN}               xpath://span[text()='Enter City Or Airport']
@@ -17,9 +17,8 @@ ${SUM_TRAVELLERS_BUTTON}       id:sumManualPassenger
 ${SEARCH_BUTTON}               xpath://div[@class='bgfade col-md-3 col-xs-12 search-button']//button
 
 *** Keywords ***
-Open Browser Page
-    Open Browser    ${HOME_URL}    Chrome
-    Maximize Browser Window
+Open PHP Travels Page
+    Go To    ${PHP_BASE_URL}
 
 Switch To Flights
     Click Element    ${FLIGHTS_TAB}

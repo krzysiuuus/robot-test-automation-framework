@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Resource    ../../config/config.robot
 
 *** Variables ***
 ${REG_EMAIL_INPUT}      xpath=//input[@id='reg_email']
@@ -13,7 +14,7 @@ ${ERROR_MESSAGE}        xpath=//ul[@class='woocommerce-error']/li
 
 *** Keywords ***
 Open My Account Page
-    Go To    http://seleniumdemo.com/?page_id=7
+    Go To    ${SHOP_BASE_URL}
 
 Wait Until My Account Page Is Loaded
     Wait Until Element Is Visible    ${REG_EMAIL_INPUT}

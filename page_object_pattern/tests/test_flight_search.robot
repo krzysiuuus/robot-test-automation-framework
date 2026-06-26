@@ -1,19 +1,20 @@
 *** Settings ***
-Library    SeleniumLibrary
-Library    DateTime
-Test Setup    flight_search.Open Browser Page
-Test Teardown    Close Browser
-Resource    ../pages/flight_search.robot
-Resource    ../pages/flight_list.robot
-Resource    ../pages/flight_book.robot
-Resource    ../pages/flight_invoice.robot
-Resource    ../data/flight_test_data.robot
-Resource    ../resources/date_utils.robot
+Library          SeleniumLibrary
+Test Setup       Open Browser Page
+Test Teardown    Close Browser Page
+Resource         ../resources/browser.robot
+Resource         ../pages/flight_search.robot
+Resource         ../pages/flight_list.robot
+Resource         ../pages/flight_book.robot
+Resource         ../pages/flight_invoice.robot
+Resource         ../data/flight_test_data.robot
+Resource         ../resources/date_utils.robot
 
 *** Test Cases ***
 User Can Search And Book Flight
     [Documentation]    Test verifies complete flight booking flow
     ${departure_date}    ${return_date}=    Get Flight Date Range
+    Open PHP Travels Page
     Switch To Flights
     Select Round Trip
     Set Departure City    ${TEST_FLIGHT.departure_city}
