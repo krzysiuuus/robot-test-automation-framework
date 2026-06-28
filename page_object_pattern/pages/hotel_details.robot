@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Resource    ../resources/logger.robot
 
 *** Variables ***
 ${AVAILABLE_ROOMS_TITLE}    xpath://div[text()='Available Rooms']
@@ -13,11 +14,13 @@ Wait Until Hotel Details Loaded
     Wait Until Element Is Visible    ${AVAILABLE_ROOMS_TITLE}
 
 Modify Dates And Guests
+    Log Step    Modifying dates and guests
     Scroll Element Into View    ${AVAILABLE_ROOMS_TITLE}
     Select From List By Value    ${CHILD_SELECT}    2
     Click Element    ${MODIFY_BUTTON}
 
 Select Room And Book
+    Log Step    Selecting room and booking hotel
     Scroll Element Into View    ${BOOK_NOW_BUTTON}
     Click Element    ${ROOM_CHECKBOX}
     Click Element    ${BOOK_NOW_BUTTON}

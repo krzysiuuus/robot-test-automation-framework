@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Resource    ../resources/logger.robot
 
 *** Variables ***
 ${INVOICE_TITLE}             xpath=//div[text()='Invoice']
@@ -24,7 +25,7 @@ Wait Until Flight Invoice Page Is Loaded
     Wait Until Element Is Visible    ${INVOICE_TITLE}    timeout=30s
 
 Verify Invoice
-    Log    Verifying flight invoice
+    Log Step    Verifying flight invoice
     Wait Until Flight Invoice Page Is Loaded
     ${name}=    Get Text    ${CUSTOMER_NAME_LABEL}
     ${address}=    Get Text    ${CUSTOMER_ADDRESS_LABEL}
@@ -34,13 +35,13 @@ Verify Invoice
     ${note}=    Get Text    ${INVOICE_NOTE_LABEL}
     RETURN    ${name}    ${address}    ${phone}    ${departure_city}    ${arrival_city}    ${note}
 
-
 Enter Card
+    Log Step    Entering payment card data
     Click Button    ${PAY_NOW_BUTTON}
     Wait Until Element Is Visible    ${GATEWAY_SELECT}    timeout=30s
-    click element    ${GATEWAY_SELECT}
+    Click Element    ${GATEWAY_SELECT}
     Select From List By Value    ${GATEWAY_SELECT}    authorize
-    Wait Until Element Is Visible    ${FIRST_NAME_INPUT}     5s
+    Wait Until Element Is Visible    ${FIRST_NAME_INPUT}    timeout=5s
     Input Text    ${FIRST_NAME_INPUT}    Anon
     Input Text    ${LAST_NAME_INPUT}    Anonski
     Input Text    ${CARD_NUMBER_INPUT}    1111222233334444
@@ -48,8 +49,8 @@ Enter Card
     Input Text    ${CVV_INPUT}    123
     Click Button    ${SUBMIT_PAYMENT_BUTTON}
 
-
 Verify Incorrect Card
+    Log Step    Verifying incorrect card message
     Wait Until Element Is Visible    ${INCORRECT_CARD_MESSAGE}    timeout=30s
     ${incorrect_card}=    Get Text    ${INCORRECT_CARD_MESSAGE}
     RETURN    ${incorrect_card}

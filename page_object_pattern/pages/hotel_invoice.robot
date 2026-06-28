@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Resource    ../resources/logger.robot
 
 *** Variables ***
 ${INVOICE_TITLE}       xpath://div[text()='Invoice']
@@ -12,11 +13,11 @@ ${NOTE}                xpath://div[@class='panel-body']
 
 *** Keywords ***
 Wait Until Hotel Invoice Page Is Loaded
-    Wait Until Element Is Visible    ${INVOICE_TITLE}   timeout=30s
+    Wait Until Element Is Visible    ${INVOICE_TITLE}    timeout=30s
 
 Verify Hotel Invoice
+    Log Step    Verifying hotel invoice
     Wait Until Hotel Invoice Page Is Loaded
-    Capture Page Screenshot
     ${name}=    Get Text    ${NAME}
     ${address}=    Get Text    ${ADDRESS}
     ${phone}=    Get Text    ${PHONE}

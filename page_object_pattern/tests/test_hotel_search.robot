@@ -25,6 +25,7 @@ User Can Search And Book Hotel
     Click Search Button
     Wait Until Results Are Loaded
     Hotel Names Should Contain    @{TEST_EXPECTED_HOTELS}
+    Hotel Prices Should Be Equal    @{TEST_EXPECTED_PRICES}
     Click Hotel Details
     Wait Until Hotel Details Loaded
     Modify Dates And Guests
