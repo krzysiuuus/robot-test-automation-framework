@@ -34,3 +34,8 @@ misc/
 geckodriver*.log
 chromedriver*.log
 msedgedriver*.log
+
+# allure
+output/
+allure-results/
+allure-report/
