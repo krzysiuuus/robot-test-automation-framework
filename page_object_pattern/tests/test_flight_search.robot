@@ -1,7 +1,7 @@
 *** Settings ***
 Library          SeleniumLibrary
-Test Setup       Open Browser Page
-Test Teardown    Close Browser Page
+Test Setup       Open Browser Session
+Test Teardown    Close Browser Session
 Resource         ../resources/browser.robot
 Resource         ../pages/flight_search.robot
 Resource         ../pages/flight_list.robot

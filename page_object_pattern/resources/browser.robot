@@ -4,7 +4,7 @@ Library     String
 Resource    ../../config/config.robot
 
 *** Keywords ***
-Open Browser Page
+Open Browser Session
     Validate Browser
     ${browser}=    Convert To Lower Case    ${BROWSER}
 
@@ -20,12 +20,15 @@ Open Browser Page
     Set Selenium Implicit Wait    ${IMPLICIT_WAIT}
     Set Selenium Speed            ${SELENIUM_SPEED}
 
-Close Browser Page
+Capture Screenshot If Test Failed
+    Run Keyword If Test Failed    Capture Page Screenshot
+
+Close Browser Session
+    Capture Screenshot If Test Failed
     Close Browser
 
 Validate Browser
     ${browser}=    Convert To Lower Case    ${BROWSER}
-
     IF    '${browser}' == 'chrome'
         RETURN
     END

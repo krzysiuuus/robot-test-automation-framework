@@ -1,7 +1,7 @@
 *** Settings ***
 Library          SeleniumLibrary
-Test Setup       Open Browser Page
-Test Teardown    Close Browser Page
+Test Setup       Open Browser Session
+Test Teardown    Close Browser Session
 Resource         ../pages/my_account_page.robot
 Resource         ../data/user_data.robot
 Resource         ../resources/data_generator.robot
