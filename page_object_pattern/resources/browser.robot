@@ -43,8 +43,12 @@ Validate Browser
     ...    Supported browsers: Chrome, Firefox, Edge
 
 Open Chrome Browser
-    Open Browser    about:blank    Chrome
-    Maximize Browser Window
+    IF    '${HEADLESS}' == 'True'
+        Open Browser    about:blank    Chrome    options=add_argument("--headless=new"); add_argument("--no-sandbox"); add_argument("--disable-dev-shm-usage"); add_argument("--window-size=1920,1080")
+    ELSE
+        Open Browser    about:blank    Chrome
+        Maximize Browser Window
+    END
 
 Open Firefox Browser
     Open Browser    about:blank    Firefox

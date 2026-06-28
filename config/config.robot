@@ -5,3 +5,4 @@ ${BROWSER}            Chrome
 ${TIMEOUT}            30s
 ${IMPLICIT_WAIT}      0s
 ${SELENIUM_SPEED}     0s
+${HEADLESS}    False

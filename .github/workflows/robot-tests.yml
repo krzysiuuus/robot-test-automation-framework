@@ -26,7 +26,7 @@ jobs:
           pip install robotframework-seleniumlibrary
 
       - name: Run Robot Framework tests
-        run: robot -d results -v BROWSER:Chrome page_object_pattern/tests
+        run: robot -d results -v BROWSER:Chrome -v HEADLESS:True page_object_pattern/tests
 
       - name: Upload Robot Framework results
         if: always()
