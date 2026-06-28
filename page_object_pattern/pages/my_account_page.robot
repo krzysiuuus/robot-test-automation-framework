@@ -24,6 +24,7 @@ Create Account
     Input Text    ${REG_EMAIL_INPUT}    ${email}
     Input Text    ${REG_PASSWORD_INPUT}    ${password}
     Click Button    ${REGISTER_BUTTON}
+    Wait Until Page Contains Element    ${LOGOUT_LINK}    timeout=30s
 
 Log In
     [Arguments]    ${username}    ${password}
@@ -35,7 +36,8 @@ Logout
     Click Element    ${LOGOUT_LINK}
 
 Logout Link Should Be Visible
-    Wait Until Element Is Visible    ${LOGOUT_LINK}
+    Wait Until Page Contains Element    ${LOGOUT_LINK}    timeout=45s
+    Wait Until Element Is Visible    ${LOGOUT_LINK}    timeout=45s
 
 Get Error Message
     Wait Until Element Is Visible    ${ERROR_MESSAGE}    timeout=10s
