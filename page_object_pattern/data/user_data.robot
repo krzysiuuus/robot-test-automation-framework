@@ -15,3 +15,5 @@ ${INVALID_EMAIL}       qwerty@o2.pls
 ${ADDRESS_CHANGED_MESSAGE}    Address changed successfully.
 
 ${INVALID_LOGIN_ERROR_MESSAGE}      ERROR: Incorrect username or password.
+
+${DUPLICATE_EMAIL_ERROR_MESSAGE}    An account is already registered with your email address.

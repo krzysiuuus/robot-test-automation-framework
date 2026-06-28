@@ -12,17 +12,15 @@ User Can Create Account
     [Documentation]    Verify user can create account successfully
     ${email}=    Generate Email
     Open My Account Page
-    Create Account    ${email}    ${DEFAULT_PASSWORD}
-    Logout Link Should Be Visible
+    Create Account And Wait Until Logged In    ${email}    ${DEFAULT_PASSWORD}
 
 User Cannot Create Account With Existing Email
     [Documentation]    Verify error message for duplicate email
     ${email}=    Generate Email
     Open My Account Page
-    Create Account    ${email}    ${DEFAULT_PASSWORD}
-    Logout Link Should Be Visible
+    Create Account And Wait Until Logged In    ${email}    ${DEFAULT_PASSWORD}
     Logout
     Open My Account Page
     Create Account    ${email}    ${DEFAULT_PASSWORD}
     ${message}=    Get Error Message
-    Should Contain    ${message}    An account is already registered with your email address.
+    Should Contain    ${message}    ${DUPLICATE_EMAIL_ERROR_MESSAGE}
