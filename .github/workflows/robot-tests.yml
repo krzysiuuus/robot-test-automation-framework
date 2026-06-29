@@ -29,7 +29,7 @@ jobs:
           robot \
             -d results \
             --listener allure_robotframework \
-            --listener RetryFailed:1
+            --listener RetryFailed:1 \
             -v BROWSER:Chrome \
             -v HEADLESS:True \
             page_object_pattern/tests
