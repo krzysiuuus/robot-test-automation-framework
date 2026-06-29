@@ -15,10 +15,11 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Robot Framework
 * SeleniumLibrary
 * Selenium WebDriver
-* ChromeDriver
 * Page Object Pattern
 * Git
-* GitHub
+* GitHub Actions
+* Allure Report
+* Python
 
 ---
 
@@ -33,6 +34,12 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Externalized test data
 * Config management
 * Cross-page reusable keywords
+* Centralized browser management 
+* Centralized logging
+* Screenshot on failure
+* Headless execution support
+* Cross-browser execution (Chrome, Firefox, Edge)
+* GitHub Actions CI
 
 ---
 
@@ -56,8 +63,11 @@ Implemented architecture includes:
 
 ```text
 robot-test-automation-framework/
+│
+├── .github/
+│   └── workflows/
+│
 ├── config/
-│   └── config.robot
 │
 ├── page_object_pattern/
 │   ├── data/
@@ -65,9 +75,9 @@ robot-test-automation-framework/
 │   ├── resources/
 │   └── tests/
 │
-├── results/
-├── .gitignore
-└── README.md
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
 ---
@@ -108,7 +118,15 @@ pip install -r requirements.txt
 Run all tests:
 
 ```bash
-robot -d results page_object_pattern/tests
+robot -d results -v BROWSER:Chrome page_object_pattern/tests
+```
+
+```bash
+robot -d results -v BROWSER:Firefox page_object_pattern/tests
+```
+
+```bash
+robot -d results -v BROWSER:Edge page_object_pattern/tests
 ```
 
 Run selected test:
@@ -118,6 +136,17 @@ robot -d results page_object_pattern/tests/test_flight_search.robot
 ```
 
 ---
+
+# Configuration 
+
+The framework supports runtime configuration through Robot Framework variables.
+
+Available options:
+
+- BROWSER=Chrome
+- BROWSER=Firefox
+- BROWSER=Edge
+- HEADLESS=True
 
 # Current Test Scenarios
 
@@ -137,11 +166,7 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
-* Browser Factory
-* GitHub Actions
 * Jenkins Pipeline
-* Screenshot on failure
-* Allure Reports
 * Retry mechanism
 * Cross-browser execution
 * Selenium Grid

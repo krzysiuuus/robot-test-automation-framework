@@ -36,6 +36,7 @@ chromedriver*.log
 msedgedriver*.log
 
 # allure
+results/
 output/
 allure-results/
 allure-report/
