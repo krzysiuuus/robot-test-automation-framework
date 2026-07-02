@@ -2,10 +2,11 @@
 Library     SeleniumLibrary
 Library     String
 Resource    ../../config/config.robot
+Resource    ../resources/logger.robot
 
 *** Keywords ***
 Open Browser Session
-    Validate Browser
+    Validate Browser Configuration
     ${browser}=    Convert To Lower Case    ${BROWSER}
 
     IF    '${browser}' == 'chrome'
@@ -27,7 +28,7 @@ Close Browser Session
     Capture Screenshot If Test Failed
     Close Browser
 
-Validate Browser
+Validate Browser Configuration
     ${browser}=    Convert To Lower Case    ${BROWSER}
     IF    '${browser}' == 'chrome'
         RETURN
@@ -45,17 +46,50 @@ Validate Browser
     ...    Unsupported browser: ${BROWSER}\n
     ...    Supported browsers: Chrome, Firefox, Edge
 
-Open Chrome Browser
+Get Chrome Options
     IF    '${HEADLESS}' == 'True'
-        Open Browser    about:blank    Chrome    options=add_argument("--headless=new"); add_argument("--no-sandbox"); add_argument("--disable-dev-shm-usage"); add_argument("--window-size=1920,1080")
+        ${options}=    Set Variable
+        ...    add_argument("--headless=new");
+        ...    add_argument("--no-sandbox");
+        ...    add_argument("--disable-dev-shm-usage");
+        ...    add_argument("--window-size=1920,1080")
     ELSE
-        Open Browser    about:blank    Chrome
+        ${options}=    Set Variable
+    END
+
+    RETURN    ${options}
+
+Open Chrome Browser
+    Log Step    Opening Chrome browser
+
+    ${options}=    Get Chrome Options
+
+    Open Browser    about:blank    Chrome    options=${options}
+
+    IF    '${HEADLESS}' != 'True'
         Maximize Browser Window
     END
 
+Get Firefox Options
+    IF    '${HEADLESS}' == 'True'
+        ${options}=    Set Variable
+        ...    add_argument("--headless")
+    ELSE
+        ${options}=    Set Variable
+    END
+
+    RETURN    ${options}
+
 Open Firefox Browser
-    Open Browser    about:blank    Firefox
-    Set Window Size    1920    1080
+    Log Step    Opening Firefox browser
+
+    ${options}=    Get Firefox Options
+
+    Open Browser    about:blank    Firefox    options=${options}
+
+    IF    '${HEADLESS}' != 'True'
+        Set Window Size    1920    1080
+    END
 
 Open Edge Browser
     Open Browser    about:blank    Edge

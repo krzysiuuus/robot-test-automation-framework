@@ -65,6 +65,7 @@ Set Travellers
     Click Element    ${INFANT_SELECT}
     Select From List By Value    ${INFANT_SELECT}    ${infant}
     Click Element    ${SUM_TRAVELLERS_BUTTON}
+    Wait Until Element Is Not Visible    id:manual_flightTravelers    timeout=10s
 
 Perform Search
     Log Step    Performing flight search

@@ -1,6 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
 Resource    ../resources/logger.robot
+Resource    ../resources/element_actions.robot
 
 *** Variables ***
 ${FIRST_NAME_INPUT}             xpath://input[@name='firstname']
@@ -42,9 +43,10 @@ Enter Note
     Log Step    Entering booking note
     Click Element    ${NOTE_LABEL}
     Wait Until Element Is Visible    ${ADDITIONAL_NOTES_TEXTAREA}
+    Scroll To Element    ${ADDITIONAL_NOTES_TEXTAREA}
     Input Text    ${ADDITIONAL_NOTES_TEXTAREA}    ${note}
 
 Click Confirm Booking
     Log Step    Confirming booking
-    Scroll Element Into View    ${CONFIRM_BOOKING_BUTTON}
+    Scroll To Element    ${CONFIRM_BOOKING_BUTTON}
     Click Button    ${CONFIRM_BOOKING_BUTTON}
