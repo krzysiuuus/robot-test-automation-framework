@@ -47,50 +47,40 @@ Validate Browser Configuration
     ...    Supported browsers: Chrome, Firefox, Edge
 
 Get Chrome Options
-    IF    '${HEADLESS}' == 'True'
-        ${options}=    Set Variable
-        ...    add_argument("--headless=new");
-        ...    add_argument("--no-sandbox");
-        ...    add_argument("--disable-dev-shm-usage");
-        ...    add_argument("--window-size=1920,1080")
-    ELSE
-        ${options}=    Set Variable
-    END
+    ${options}=    Catenate    SEPARATOR=;
+    ...    add_argument("--headless=new")
+    ...    add_argument("--no-sandbox")
+    ...    add_argument("--disable-dev-shm-usage")
+    ...    add_argument("--window-size=1920,1080")
 
     RETURN    ${options}
 
 Open Chrome Browser
     Log Step    Opening Chrome browser
-
-    ${options}=    Get Chrome Options
-
-    Open Browser    about:blank    Chrome    options=${options}
-
-    IF    '${HEADLESS}' != 'True'
+    IF    '${HEADLESS}' == 'True'
+        ${options}=    Get Chrome Options
+        Open Browser    about:blank    Chrome    options=${options}
+    ELSE
+        Open Browser    about:blank    Chrome
         Maximize Browser Window
     END
 
 Get Firefox Options
-    IF    '${HEADLESS}' == 'True'
-        ${options}=    Set Variable
-        ...    add_argument("--headless")
-    ELSE
-        ${options}=    Set Variable
-    END
-
+    ${options}=    Set Variable
+    ...    add_argument("--headless")
     RETURN    ${options}
 
 Open Firefox Browser
     Log Step    Opening Firefox browser
-
-    ${options}=    Get Firefox Options
-
-    Open Browser    about:blank    Firefox    options=${options}
-
-    IF    '${HEADLESS}' != 'True'
+    IF    '${HEADLESS}' == 'True'
+        ${options}=    Get Firefox Options
+        Open Browser    about:blank    Firefox    options=${options}
+    ELSE
+        Open Browser    about:blank    Firefox
         Set Window Size    1920    1080
     END
 
 Open Edge Browser
+    Log Step    Opening Edge browser
     Open Browser    about:blank    Edge
     Maximize Browser Window
