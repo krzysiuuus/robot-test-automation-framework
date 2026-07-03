@@ -1,0 +1,21 @@
+services:
+  robot-tests:
+    build: .
+
+    container_name: robot-test-automation-framework
+
+    volumes:
+      - ./results:/app/results
+
+    command:
+      - -d
+      - results
+      - --listener
+      - allure_robotframework
+      - --listener
+      - RetryFailed:1
+      - -v
+      - BROWSER:Chrome
+      - -v
+      - HEADLESS:True
+      - page_object_pattern/tests

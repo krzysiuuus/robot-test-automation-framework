@@ -1,0 +1,10 @@
+venv/
+.venv/
+results/
+output/
+allure-results/
+allure-report/
+.git/
+.idea/
+__pycache__/
+*.log

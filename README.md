@@ -20,42 +20,48 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * GitHub Actions
 * Allure Report
 * Python
+* Docker
+* Docker Compose
 
 ---
 
 # Features
 
 * Page Object Pattern architecture
+* Reusable Element Actions layer
 * End-to-end UI automation
 * Dynamic test data
 * Dynamic date generation
 * Shared configuration management
 * Reusable Robot Framework resources
 * Externalized test data
-* Config management
-* Cross-page reusable keywords
-* Centralized browser management 
-* Centralized logging
-* Screenshot on failure
-* Headless execution support
+* Centralized browser management
 * Cross-browser execution (Chrome, Firefox, Edge)
-* GitHub Actions CI
+* Headless execution
+* Screenshot on failure
+* Retry mechanism
+* Allure Report integration
+* GitHub Actions CI/CD
+* Docker support
+* Docker Compose support
 
 ---
 
 # Architecture
 
-The framework is based on the Page Object Pattern design pattern.
+The framework follows the Page Object Pattern and introduces an additional abstraction layer responsible for browser interactions.
 
-Implemented architecture includes:
+Architecture layers:
 
-* reusable page resources
-* centralized configuration
-* separated test data
-* reusable browser management
-* reusable utility resources
-* dynamic date generation
-* clear separation between tests, pages and data
+Tests
+↓
+Page Objects
+↓
+Element Actions
+↓
+SeleniumLibrary
+↓
+WebDriver
 
 ---
 
@@ -75,6 +81,9 @@ robot-test-automation-framework/
 │   ├── resources/
 │   └── tests/
 │
+├── results/
+├── Dockerfile
+├── docker-compose.yml
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -115,27 +124,87 @@ pip install -r requirements.txt
 
 # Running Tests
 
-Run all tests:
+### Run all tests
+
+Chrome
 
 ```bash
 robot -d results -v BROWSER:Chrome page_object_pattern/tests
 ```
 
+Firefox
+
 ```bash
 robot -d results -v BROWSER:Firefox page_object_pattern/tests
 ```
+
+Edge
 
 ```bash
 robot -d results -v BROWSER:Edge page_object_pattern/tests
 ```
 
-Run selected test:
+Run single test
 
 ```bash
 robot -d results page_object_pattern/tests/test_flight_search.robot
 ```
 
+Run tests in headless mode
+
+```bash
+robot -d results \
+-v BROWSER:Chrome \
+-v HEADLESS:True \
+page_object_pattern/tests
+```
+
+Run tests with Allure
+
+```bash
+robot -d results \
+--listener allure_robotframework \
+page_object_pattern/tests
+```
+
+Run tests with Retry
+
+```bash
+robot -d results \
+--listener RetryFailed:1 \
+page_object_pattern/tests
+```
+
+Run with Allure and Retry
+
+```bash
+robot -d results \
+--listener allure_robotframework \
+--listener RetryFailed:1 \
+-v BROWSER:Chrome \
+page_object_pattern/tests
+```
+
 ---
+
+# Docker
+
+Build image and run:
+
+```bash
+docker compose up --build
+```
+Run tests:
+
+```bash
+docker compose up
+```
+
+Stop containers:
+
+```bash
+docker compose down
+```
 
 # Configuration 
 
@@ -147,6 +216,12 @@ Available options:
 - BROWSER=Firefox
 - BROWSER=Edge
 - HEADLESS=True
+
+Variables can be overridden directly from the command line:
+
+```bash
+robot -v BROWSER:Firefox -v HEADLESS:True page_object_pattern/tests
+```
 
 # Current Test Scenarios
 
@@ -166,12 +241,11 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
-* Jenkins Pipeline
-* Retry mechanism
-* Cross-browser execution
 * Selenium Grid
 * Remote WebDriver execution
 * Parallel execution
+* Jenkins Pipeline
+* Browser matrix execution
 
 ---
 
