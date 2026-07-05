@@ -5,8 +5,7 @@ Resource    ../../config/config.robot
 Resource    ../resources/logger.robot
 
 *** Keywords ***
-Open Browser Session
-    Validate Browser Configuration
+Open Local Browser
     ${browser}=    Convert To Lower Case    ${BROWSER}
 
     IF    '${browser}' == 'chrome'
@@ -17,6 +16,26 @@ Open Browser Session
         Open Edge Browser
     END
 
+Open Remote Browser
+    Log Step    Opening remote browser: ${BROWSER} on ${REMOTE_URL}
+
+    ${options}=    Get Browser Options    ${BROWSER}
+
+    Open Browser
+    ...    about:blank
+    ...    browser=${BROWSER}
+    ...    remote_url=${REMOTE_URL}
+    ...    options=${options}
+
+Open Browser Session
+    Validate Browser Configuration
+    IF    '${EXECUTION}' == 'LOCAL'
+        Open Local Browser
+    ELSE IF    '${EXECUTION}' == 'REMOTE'
+        Open Remote Browser
+    ELSE
+        Fail    Unsupported execution type: ${EXECUTION}. Supported types: LOCAL, REMOTE
+    END
     Set Selenium Timeout          ${TIMEOUT}
     Set Selenium Implicit Wait    ${IMPLICIT_WAIT}
     Set Selenium Speed            ${SELENIUM_SPEED}
@@ -80,7 +99,38 @@ Open Firefox Browser
         Set Window Size    1920    1080
     END
 
+Get Edge Options
+    ${options}=    Catenate    SEPARATOR=;
+    ...    add_argument("--headless=new")
+    ...    add_argument("--no-sandbox")
+    ...    add_argument("--disable-dev-shm-usage")
+    ...    add_argument("--window-size=1920,1080")
+
+    RETURN    ${options}
+
 Open Edge Browser
     Log Step    Opening Edge browser
-    Open Browser    about:blank    Edge
-    Maximize Browser Window
+    IF    '${HEADLESS}' == 'True'
+        ${options}=    Get Edge Options
+        Open Browser    about:blank    Edge    options=${options}
+    ELSE
+        Open Browser    about:blank    Edge
+        Maximize Browser Window
+    END
+
+Get Browser Options
+    [Arguments]    ${browser_name}
+
+    ${browser}=    Convert To Lower Case    ${browser_name}
+
+    IF    '${browser}' == 'chrome'
+        ${options}=    Get Chrome Options
+    ELSE IF    '${browser}' == 'firefox'
+        ${options}=    Get Firefox Options
+    ELSE IF    '${browser}' == 'edge'
+        ${options}=    Get Edge Options
+    ELSE
+        Fail    Unsupported browser: ${browser_name}
+    END
+
+    RETURN    ${options}

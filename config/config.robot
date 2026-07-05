@@ -5,4 +5,6 @@ ${BROWSER}            Chrome
 ${TIMEOUT}            25s
 ${IMPLICIT_WAIT}      0s
 ${SELENIUM_SPEED}     0s
-${HEADLESS}    False
+${HEADLESS}           False
+${EXECUTION}          %{EXECUTION=LOCAL}
+${REMOTE_URL}         %{REMOTE_URL=http://localhost:4444/wd/hub}

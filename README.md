@@ -15,6 +15,8 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Robot Framework
 * SeleniumLibrary
 * Selenium WebDriver
+* Selenium Grid
+* Remote WebDriver
 * Page Object Pattern
 * Git
 * GitHub Actions
@@ -37,6 +39,9 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Externalized test data
 * Centralized browser management
 * Cross-browser execution (Chrome, Firefox, Edge)
+* Local and Remote execution
+* Selenium Grid support
+* Remote WebDriver support
 * Headless execution
 * Screenshot on failure
 * Retry mechanism
@@ -84,6 +89,7 @@ robot-test-automation-framework/
 ├── results/
 ├── Dockerfile
 ├── docker-compose.yml
+├── docker-compose-grid.yml
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -185,11 +191,39 @@ robot -d results \
 page_object_pattern/tests
 ```
 
+Remote execution (Selenium Grid)
+
+Start Selenium Grid
+```bash
+docker compose -f docker-compose-grid.yml up
+```
+
+Run Chrome
+```bash
+robot -d results \
+-v EXECUTION:REMOTE \
+-v BROWSER:Chrome \
+page_object_pattern/tests
+```
+Run Firefox
+```bash
+robot -d results \
+-v EXECUTION:REMOTE \
+-v BROWSER:Firefox \
+page_object_pattern/tests
+```
+Run Edge
+```bash
+robot -d results \
+-v EXECUTION:REMOTE \
+-v BROWSER:Edge \
+page_object_pattern/tests
+```
 ---
 
 # Docker
 
-Build image and run:
+Build and run containers:
 
 ```bash
 docker compose up --build
@@ -206,6 +240,29 @@ Stop containers:
 docker compose down
 ```
 
+## Remote execution (Selenium Grid)
+
+Start Selenium Grid
+
+```bash
+docker compose -f docker-compose-grid.yml up
+```
+
+Run in background
+```bash
+docker compose -f docker-compose-grid.yml up -d
+```
+
+Stop Grid
+```bash
+docker compose -f docker-compose-grid.yml down
+```
+
+Grid UI
+```text
+http://localhost:4444/ui
+```
+
 # Configuration 
 
 The framework supports runtime configuration through Robot Framework variables.
@@ -216,11 +273,19 @@ Available options:
 - BROWSER=Firefox
 - BROWSER=Edge
 - HEADLESS=True
+- EXECUTION=LOCAL
+- EXECUTION=REMOTE
 
 Variables can be overridden directly from the command line:
 
 ```bash
 robot -v BROWSER:Firefox -v HEADLESS:True page_object_pattern/tests
+```
+
+Example of remote execution:
+
+```bash
+robot -v EXECUTION:REMOTE -v BROWSER:Chrome page_object_pattern/tests
 ```
 
 # Current Test Scenarios
@@ -241,8 +306,6 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
-* Selenium Grid
-* Remote WebDriver execution
 * Parallel execution
 * Jenkins Pipeline
 * Browser matrix execution
