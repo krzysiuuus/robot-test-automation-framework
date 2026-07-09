@@ -1,6 +1,7 @@
 *** Settings ***
 Library     RequestsLibrary
 Library     JSONLibrary
+Library    OperatingSystem
 
 *** Keywords ***
 Create API Session
@@ -47,6 +48,15 @@ Response Time Should Be Less Than
     Should Be True
     ...    ${elapsed} < ${max_seconds}
     ...    Response time ${elapsed}s is not less than ${max_seconds}s
+
+Response Should Match Schema
+    [Arguments]    ${response}    ${schema_path}
+
+    ${schema}=    Get File    ${schema_path}
+    ${schema_json}=    Evaluate    json.loads($schema)    json
+    ${response_body}=    Set Variable    ${response.json()}
+
+    Evaluate    jsonschema.validate(instance=$response_body, schema=$schema_json)    jsonschema
 
 Send POST Request
     [Arguments]    ${alias}    ${endpoint}    ${payload}

@@ -17,6 +17,9 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Selenium WebDriver
 * Selenium Grid
 * Remote WebDriver
+* RequestsLibrary
+* JSONLibrary
+* REST API Testing
 * Page Object Pattern
 * Git
 * GitHub Actions
@@ -42,6 +45,11 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Local and Remote execution
 * Selenium Grid support
 * Remote WebDriver support
+* REST API automation
+* Reusable API keywords
+* CRUD API operations (GET, POST, PUT, DELETE)
+* JSONPath response validation
+* Response time validation
 * Headless execution
 * Screenshot on failure
 * Retry mechanism
@@ -58,15 +66,23 @@ The framework follows the Page Object Pattern and introduces an additional abstr
 
 Architecture layers:
 
-Tests
-↓
+UI Tests
+    ↓
 Page Objects
-↓
+    ↓
 Element Actions
-↓
+    ↓
 SeleniumLibrary
-↓
+    ↓
 WebDriver
+
+API Tests
+    ↓
+API Keywords
+    ↓
+RequestsLibrary
+    ↓
+REST API
 
 ---
 
@@ -77,6 +93,11 @@ robot-test-automation-framework/
 │
 ├── .github/
 │   └── workflows/
+│
+├── api_tests/
+│   ├── data/
+│   ├── resources/
+│   └── tests/
 │
 ├── config/
 │
@@ -191,7 +212,7 @@ robot -d results \
 page_object_pattern/tests
 ```
 
-Remote execution (Selenium Grid)
+### Remote execution (Selenium Grid)
 
 Start Selenium Grid
 ```bash
@@ -220,6 +241,32 @@ robot -d results \
 page_object_pattern/tests
 ```
 ---
+
+## API Testing
+
+The framework also contains API automated tests built with RequestsLibrary.
+
+Implemented API features:
+
+- GET requests
+- POST requests
+- PUT requests
+- DELETE requests
+- Response status validation
+- JSONPath response validation
+- Response time assertions
+- Reusable API keywords
+
+Run all API tests:
+
+```bash
+robot -d results api_tests/tests
+```
+Run single API test:
+
+```bash
+robot -d results api_tests/tests/test_get_single_user.robot
+```
 
 # Docker
 
@@ -287,16 +334,30 @@ Example of remote execution:
 ```bash
 robot -v EXECUTION:REMOTE -v BROWSER:Chrome page_object_pattern/tests
 ```
+```md
+Available API configuration:
+
+- API_BASE_URL
+- REQRES_BASE_URL
+- REQRES_API_KEY
+```
 
 # Current Test Scenarios
 
-The framework currently contains automated UI tests for:
+## UI
 
-* Flight Search
-* Hotel Search
-* Create Account
-* Login Validation
-* Update Billing Address
+- Flight Search
+- Hotel Search
+- Create Account
+- Login Validation
+- Update Billing Address
+
+## API
+
+- GET User
+- Create Post
+- Update Post
+- Delete Post
 
 ---
 
@@ -306,6 +367,7 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
+* JSON Schema Validation
 * Parallel execution
 * Jenkins Pipeline
 * Browser matrix execution

@@ -13,3 +13,6 @@ Get Single User
     Response JSON Value Should Be    ${response}    $.id       ${2}
     Response JSON Value Should Be    ${response}    $.email    Shanna@melissa.tv
     Response JSON Value Should Be    ${response}    $.company.name    Deckow-Crist
+    Response Should Match Schema
+    ...    ${response}
+    ...    api_tests/schemas/user_schema.json
