@@ -21,6 +21,7 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * JSONLibrary
 * REST API Testing
 * Page Object Pattern
+* Pabot
 * Git
 * GitHub Actions
 * Allure Report
@@ -46,12 +47,14 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Selenium Grid support
 * Remote WebDriver support
 * REST API automation
+* Parallel test execution with Pabot
 * Reusable API keywords
 * CRUD API operations (GET, POST, PUT, DELETE)
 * JSONPath response validation
 * JSON Schema validation
 * Response time validation
 * Headless execution
+* Helper scripts for local and remote test execution
 * Screenshot on failure
 * Retry mechanism
 * Allure Report integration
@@ -64,6 +67,7 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 # Architecture
 
 The framework follows the Page Object Pattern and introduces an additional abstraction layer responsible for browser interactions.
+Parallel execution is handled by Pabot and can be combined with Selenium Grid for distributed execution.
 
 Architecture layers:
 
@@ -107,6 +111,11 @@ robot-test-automation-framework/
 │   ├── pages/
 │   ├── resources/
 │   └── tests/
+├── scripts/
+│   ├── start_grid.bat
+│   ├── stop_grid.bat
+│   ├── run_all_browsers.bat
+│   └── run_all_browsers_remote.bat
 │
 ├── results/
 ├── Dockerfile
@@ -243,6 +252,49 @@ page_object_pattern/tests
 ```
 ---
 
+### Parallel execution (Pabot)
+
+Run UI tests in parallel:
+
+```bash
+pabot --outputdir results/pabot page_object_pattern/tests
+```
+
+Run UI tests in parallel on Selenium Grid:
+
+```bash
+pabot --processes 3 --outputdir results/pabot-grid \
+-v EXECUTION:REMOTE \
+-v BROWSER:Chrome \
+page_object_pattern/tests
+```
+
+## Helper Scripts
+
+Start Selenium Grid:
+
+```bash
+scripts\start_grid.bat
+```
+
+Run tests on all browsers locally:
+
+```bash
+scripts\run_all_browsers.bat
+```
+
+Run tests on all browsers using Selenium Grid:
+
+```bash
+scripts\run_all_browsers_remote.bat
+```
+
+Stop Selenium Grid:
+
+```bash
+scripts\stop_grid.bat
+```
+
 ## API Testing
 
 The framework also contains API automated tests built with RequestsLibrary.
@@ -378,7 +430,6 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
-* Parallel execution
 * Jenkins Pipeline
 * Browser matrix execution
 
