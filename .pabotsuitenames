@@ -1,0 +1,9 @@
+datasources:a28de140e4529ab7ac79a6df6018edb2d514f7fb
+commandlineoptions:daf6e693fb5660f45d09b5541b5bbf099991e9b5
+suitesfrom:no-suites-from-option
+file:a70e4f76ac22fed5c9182e2fe18115c8cbc954cf
+--suite Tests.Test Create Account
+--suite Tests.Test Flight Search
+--suite Tests.Test Hotel Search
+--suite Tests.Test Login
+--suite Tests.Test Update Billing Address

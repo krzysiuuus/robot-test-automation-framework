@@ -49,6 +49,7 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * Reusable API keywords
 * CRUD API operations (GET, POST, PUT, DELETE)
 * JSONPath response validation
+* JSON Schema validation
 * Response time validation
 * Headless execution
 * Screenshot on failure
@@ -254,6 +255,7 @@ Implemented API features:
 - DELETE requests
 - Response status validation
 - JSONPath response validation
+- JSON Schema validation
 - Response time assertions
 - Reusable API keywords
 
@@ -267,6 +269,15 @@ Run single API test:
 ```bash
 robot -d results api_tests/tests/test_get_single_user.robot
 ```
+
+# GitHub Actions
+
+The project automatically executes:
+
+- UI tests
+- API tests
+
+on every push to the repository.
 
 # Docker
 
@@ -354,7 +365,7 @@ Available API configuration:
 
 ## API
 
-- GET User
+- GET Single User
 - Create Post
 - Update Post
 - Delete Post
@@ -367,7 +378,6 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
-* JSON Schema Validation
 * Parallel execution
 * Jenkins Pipeline
 * Browser matrix execution
