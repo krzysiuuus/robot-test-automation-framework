@@ -28,12 +28,18 @@ pipeline {
         stage('Run API tests') {
             steps {
                 sh '''
+                    rm -rf results
+                    mkdir -p results/api/allure
+
                     docker run --rm \
-                    -v $(pwd)/results:/app/results \
-                    robot-test-framework \
-                    -d results/api \
-                    --listener allure_robotframework:results/api/allure \
-                    api_tests/tests
+                        --volumes-from jenkins \
+                        -w ${WORKSPACE} \
+                        robot-test-framework \
+                        -d results/api \
+                        --listener allure_robotframework:results/api/allure \
+                        api_tests/tests
+
+                    find results -maxdepth 3 -type f -print
                 '''
             }
         }
