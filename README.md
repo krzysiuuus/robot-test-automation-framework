@@ -2,11 +2,34 @@
 
 ![Robot Framework Tests](https://github.com/krzysiuuus/robot-test-automation-framework/actions/workflows/robot-tests.yml/badge.svg)
 
-Automated UI test framework created with Robot Framework and SeleniumLibrary.
+A production-style Robot Framework automation project demonstrating modern UI and API test automation with Docker, Selenium Grid, Jenkins, GitHub Actions and Allure Reporting.
 
-The project is a Robot Framework equivalent of my Python Test Automation Framework. It demonstrates how the same automation architecture can be implemented using Robot Framework while following its best practices.
+The project follows the same architecture as my Python Test Automation Framework while using Robot Framework best practices.
 
-The framework contains end-to-end UI automated tests based on the Page Object Pattern.
+It demonstrates:
+
+- UI automation (Page Object Pattern)
+- REST API automation
+- Selenium Grid execution
+- Parallel execution with Pabot
+- Docker-based execution
+- GitHub Actions CI
+- Jenkins CI/CD
+- Allure reporting
+
+## Quick Start
+
+```powershell
+git clone https://github.com/krzysiuuus/robot-test-automation-framework.git
+cd robot-test-automation-framework
+
+python -m venv venv
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+robot -d results page_object_pattern/tests
+```
 
 ---
 
@@ -26,8 +49,10 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * GitHub Actions
 * Allure Report
 * Python
-* Docker
+* Jenkins
+* Docker Desktop
 * Docker Compose
+* Allure CLI
 
 ---
 
@@ -61,33 +86,42 @@ The framework contains end-to-end UI automated tests based on the Page Object Pa
 * GitHub Actions CI/CD
 * Docker support
 * Docker Compose support
+* Jenkins Pipeline
+* Dockerized Jenkins
+* CI/CD Pipeline
+* Allure report publishing in Jenkins
+* Containerized test execution
 
 ---
 
 # Architecture
 
-The framework follows the Page Object Pattern and introduces an additional abstraction layer responsible for browser interactions.
-Parallel execution is handled by Pabot and can be combined with Selenium Grid for distributed execution.
+The framework separates UI automation, API automation and CI/CD execution into independent layers.
 
-Architecture layers:
+## Framework Architecture
 
-UI Tests
-    ↓
-Page Objects
-    ↓
-Element Actions
-    ↓
-SeleniumLibrary
-    ↓
-WebDriver
+```mermaid
+flowchart TD
+    UI[UI Tests] --> PO[Page Objects]
+    PO --> EA[Element Actions]
+    EA --> SL[SeleniumLibrary]
+    SL --> WD[WebDriver]
 
-API Tests
-    ↓
-API Keywords
-    ↓
-RequestsLibrary
-    ↓
-REST API
+    API[API Tests] --> AK[API Keywords]
+    AK --> RL[RequestsLibrary]
+    RL --> REST[REST API]
+```
+
+## CI/CD Architecture
+
+```mermaid
+flowchart TD
+    DEV[Developer] --> GH[GitHub]
+    GH --> J[Jenkins]
+    J --> DB[Docker Build]
+    DB --> RF[Robot Framework Tests]
+    RF --> AR[Allure Report]
+```
 
 ---
 
@@ -111,16 +145,21 @@ robot-test-automation-framework/
 │   ├── pages/
 │   ├── resources/
 │   └── tests/
+├── results/
 ├── scripts/
 │   ├── start_grid.bat
 │   ├── stop_grid.bat
 │   ├── run_all_browsers.bat
 │   └── run_all_browsers_remote.bat
 │
-├── results/
 ├── Dockerfile
+├── Dockerfile.jenkins
+│
 ├── docker-compose.yml
 ├── docker-compose-grid.yml
+├── docker-compose-jenkins.yml
+│
+├── Jenkinsfile
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -324,54 +363,185 @@ robot -d results api_tests/tests/test_get_single_user.robot
 
 # GitHub Actions
 
-The project automatically executes:
+The GitHub Actions workflow executes UI and API tests automatically for configured repository events, including pushes to the main development branch.
 
-- UI tests
-- API tests
+Pipeline stages:
 
-on every push to the repository.
+- Checkout repository
+- Install dependencies
+- Execute API tests
+- Execute UI tests
+- Publish reports
+
+# Jenkins
+
+The project includes a Dockerized Jenkins environment and a pipeline defined as code in `Jenkinsfile`.
+
+Pipeline stages:
+
+1. Checkout the repository
+2. Build the Robot Framework Docker image
+3. Execute API tests inside Docker
+4. Publish the Allure report
+5. Archive Robot Framework test artifacts
+
+Start Jenkins:
+
+```powershell
+docker compose -f docker-compose-jenkins.yml up -d --build
+```
+
+Jenkins is available at:
+
+```text
+http://localhost:8080
+```
+
+The pipeline requires:
+
+- Pipeline plugin
+- Git plugin
+- Docker Pipeline plugin
+- Allure Jenkins plugin
+- Allure Commandline configured under Jenkins Tools
 
 # Docker
 
-Build and run containers:
+The project supports containerized test execution with Docker and Docker Compose.
 
-```bash
+## Build the Test Image
+
+```powershell
+docker build -t robot-test-framework .
+```
+
+Verify the image:
+
+```powershell
+docker run --rm robot-test-framework --version
+```
+
+## Run API Tests in Docker
+
+```powershell
+docker run --rm `
+  -v "${PWD}\results:/app/results" `
+  robot-test-framework `
+  -d results/api `
+  api_tests/tests
+```
+
+The generated Robot Framework reports will be available in:
+
+```text
+results/api/
+├── output.xml
+├── log.html
+└── report.html
+```
+
+## Run API Tests with Allure Results
+
+```powershell
+docker run --rm `
+  -v "${PWD}\results:/app/results" `
+  robot-test-framework `
+  -d results/api `
+  --listener allure_robotframework:results/api/allure `
+  api_tests/tests
+```
+
+Allure result files will be generated in:
+
+```text
+results/api/allure/
+```
+
+## Docker Compose
+
+Build and start the test service:
+
+```powershell
 docker compose up --build
 ```
-Run tests:
 
-```bash
+Start previously built services:
+
+```powershell
 docker compose up
 ```
 
-Stop containers:
+Stop and remove the containers:
 
-```bash
+```powershell
 docker compose down
 ```
 
-## Remote execution (Selenium Grid)
+## Selenium Grid
 
-Start Selenium Grid
+Start Selenium Grid in the foreground:
 
-```bash
+```powershell
 docker compose -f docker-compose-grid.yml up
 ```
 
-Run in background
-```bash
+Start Selenium Grid in the background:
+
+```powershell
 docker compose -f docker-compose-grid.yml up -d
 ```
 
-Stop Grid
-```bash
+Check the running Grid services:
+
+```powershell
+docker compose -f docker-compose-grid.yml ps
+```
+
+Open the Selenium Grid console:
+
+```text
+http://localhost:4444/ui/
+```
+
+Stop Selenium Grid:
+
+```powershell
 docker compose -f docker-compose-grid.yml down
 ```
 
-Grid UI
-```text
-http://localhost:4444/ui
+## Jenkins in Docker
+
+Build and start Jenkins:
+
+```powershell
+docker compose -f docker-compose-jenkins.yml up -d --build
 ```
+
+Check the Jenkins container:
+
+```powershell
+docker compose -f docker-compose-jenkins.yml ps
+```
+
+Follow Jenkins logs:
+
+```powershell
+docker compose -f docker-compose-jenkins.yml logs -f jenkins
+```
+
+Open Jenkins:
+
+```text
+http://localhost:8080
+```
+
+Stop Jenkins:
+
+```powershell
+docker compose -f docker-compose-jenkins.yml down
+```
+
+The Jenkins home directory is stored in a named Docker volume, so Jenkins configuration and build history remain available after the container is stopped.
 
 # Configuration 
 
@@ -397,13 +567,10 @@ Example of remote execution:
 ```bash
 robot -v EXECUTION:REMOTE -v BROWSER:Chrome page_object_pattern/tests
 ```
-```md
+
 Available API configuration:
 
 - API_BASE_URL
-- REQRES_BASE_URL
-- REQRES_API_KEY
-```
 
 # Current Test Scenarios
 
@@ -430,8 +597,9 @@ The project is being developed incrementally.
 
 Next planned improvements:
 
-* Jenkins Pipeline
 * Browser matrix execution
+* UI execution in Jenkins Pipeline
+* Parallel UI/API execution
 
 ---
 
