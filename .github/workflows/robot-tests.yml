@@ -3,6 +3,7 @@ name: Robot Framework Tests
 on:
   push:
     branches: [ main ]
+
   pull_request:
     branches: [ main ]
 
@@ -24,29 +25,31 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Robot Framework tests
+      - name: Run UI tests
         run: |
           robot \
-            -d results \
-            --listener allure_robotframework \
+            -d results/ui \
+            --listener allure_robotframework:results/ui/allure \
             --listener RetryFailed:1 \
             -v BROWSER:Chrome \
             -v HEADLESS:True \
             page_object_pattern/tests
 
-      - name: Upload Allure results
+      - name: Upload UI Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
-          path: output/allure/
+          name: ui-allure-results
+          path: results/ui/allure/
 
-      - name: Upload Robot Framework results
+      - name: Upload UI Robot Framework results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: robot-framework-results
-          path: results/
+          name: ui-robot-results
+          path: results/ui/
+
+
   robot-api-tests:
     runs-on: ubuntu-latest
 
@@ -66,11 +69,21 @@ jobs:
 
       - name: Run API tests
         run: |
-          robot -d results/api api_tests/tests
+          pabot \
+            --outputdir results/api \
+            --listener allure_robotframework:results/api/allure \
+            api_tests/tests
+
+      - name: Upload API Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-allure-results
+          path: results/api/allure/
 
       - name: Upload API Robot Framework results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: robot-api-results
+          name: api-robot-results
           path: results/api/
