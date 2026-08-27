@@ -13,6 +13,7 @@ Update Post
     ...    ${UPDATE_POST_PAYLOAD}
 
     Response Status Should Be        ${response}    200
+    Response Time Should Be Less Than    ${response}    2
     Response JSON Value Should Be    ${response}    $.id       ${1}
     Response JSON Value Should Be    ${response}    $.title    Updated title
     Response JSON Value Should Be    ${response}    $.body     Updated body

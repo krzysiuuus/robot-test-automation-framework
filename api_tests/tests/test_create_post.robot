@@ -13,3 +13,10 @@ Create Post
     ...    ${CREATE_POST_PAYLOAD}
 
     Response Status Should Be    ${response}    201
+    Response Time Should Be Less Than    ${response}    2
+
+    ${body}=    Set Variable    ${response.json()}
+
+    Should Be Equal    ${body}[title]    ${CREATE_POST_PAYLOAD}[title]
+    Should Be Equal    ${body}[body]     ${CREATE_POST_PAYLOAD}[body]
+    Should Be Equal As Integers    ${body}[userId]    ${CREATE_POST_PAYLOAD}[userId]
