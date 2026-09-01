@@ -134,3 +134,12 @@ Get Browser Options
     END
 
     RETURN    ${options}
+
+Log Current Page State
+    ${current_url}=    Get Location
+    ${title}=          Get Title
+
+    Log To Console    CURRENT URL: ${current_url}
+    Log To Console    PAGE TITLE: ${title}
+
+    Capture Page Screenshot

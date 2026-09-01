@@ -13,4 +13,4 @@ Get Users
 
     ${body}=    Set Variable    ${response.json()}
     Should Not Be Empty    ${body}
-    Should Be Equal As Integers    ${body}[0][userId]    1
+    Should Be Equal As Integers    ${body}[0][id]    1

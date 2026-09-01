@@ -2,6 +2,7 @@
 Library    SeleniumLibrary
 Resource    ../../core/config.robot
 Resource    ../resources/logger.robot
+Resource         ../resources/browser.robot
 
 *** Variables ***
 ${REG_EMAIL_INPUT}      xpath=//input[@id='reg_email']
@@ -17,6 +18,7 @@ ${ERROR_MESSAGE}        xpath=//ul[@class='woocommerce-error']/li
 Open My Account Page
     Log Step    Opening My Account page
     Go To    ${SHOP_BASE_URL}
+    Log Current Page State
 
 Wait Until My Account Page Is Loaded
     Wait Until Element Is Visible    ${REG_EMAIL_INPUT}

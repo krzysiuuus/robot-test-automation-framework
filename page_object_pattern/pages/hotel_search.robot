@@ -2,6 +2,7 @@
 Library    SeleniumLibrary
 Resource    ../../core/config.robot
 Resource    ../resources/logger.robot
+Resource         ../resources/browser.robot
 
 *** Variables ***
 ${HOTEL_CITY_DROPDOWN}    xpath://span[text()='Search by Hotel or City Name']
@@ -17,6 +18,7 @@ ${SEARCH_BUTTON}          xpath://button[contains(text(),'Search')]
 Open PHP Travels Page
     Log Step    Opening PHP Travels page
     Go To    ${PHP_BASE_URL}
+    Log Current Page State
 
 Set City
     [Arguments]    ${city}
