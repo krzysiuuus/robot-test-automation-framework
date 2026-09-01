@@ -10,20 +10,12 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
 
-    parameters {
-        choice(
-            name: 'BROWSER',
-            choices: ['chrome', 'firefox', 'edge'],
-            description: 'Browser used for UI tests'
-        )
-    }
-
     stages {
 
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/krzysiuuus/python-test-automation-framework.git'
+                    url: 'https://github.com/krzysiuuus/robot-test-automation-framework.git'
             }
         }
 
