@@ -1,7 +1,7 @@
 *** Settings ***
 Library     Collections
 
-Resource    ../../config/config.robot
+Resource    ../../core/config.robot
 Resource    ../resources/api_keywords.robot
 
 *** Test Cases ***

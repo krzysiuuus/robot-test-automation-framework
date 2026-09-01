@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../../config/config.robot
+Resource    ../../core/config.robot
 Resource    ../resources/api_keywords.robot
 
 Test Template    Verify Single User

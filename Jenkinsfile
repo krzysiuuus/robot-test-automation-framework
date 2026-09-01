@@ -2,12 +2,12 @@ pipeline {
 
     agent any
 
-    parameters {
-        choice(
-            name: 'BROWSER',
-            choices: ['Chrome', 'Firefox', 'Edge'],
-            description: 'Browser used for UI tests'
-        )
+    options {
+        skipDefaultCheckout(true)
+    }
+
+    triggers {
+        pollSCM('H/5 * * * *')
     }
 
     stages {

@@ -1,7 +1,7 @@
 *** Settings ***
 Library     SeleniumLibrary
 Library     String
-Resource    ../../config/config.robot
+Resource    ../../core/config.robot
 Resource    ../resources/logger.robot
 
 *** Keywords ***

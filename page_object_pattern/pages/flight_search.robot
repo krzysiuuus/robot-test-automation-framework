@@ -1,6 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
-Resource    ../../config/config.robot
+Resource    ../../core/config.robot
 Resource    ../resources/logger.robot
 
 *** Variables ***

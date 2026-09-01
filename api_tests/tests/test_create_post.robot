@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../../config/config.robot
+Resource    ../../core/config.robot
 Resource    ../resources/api_keywords.robot
 Resource    ../data/create_post_payload.robot
 
