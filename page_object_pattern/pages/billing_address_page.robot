@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Resource    ../../core/config.robot
 Resource    ../resources/logger.robot
 
 *** Variables ***
@@ -18,7 +19,9 @@ ${MESSAGE_TEXT}                 xpath=//div[contains(@class, 'woocommerce-messag
 *** Keywords ***
 Open Edit Billing Address
     Log Step    Opening billing address page
+    Wait Until Element Is Visible    ${ADDRESS_LINK}    ${TIMEOUT}
     Click Link    ${ADDRESS_LINK}
+    Wait Until Element Is Visible    ${EDIT_LINK}    ${TIMEOUT}
     Click Link    ${EDIT_LINK}
 
 Set Personal Data
@@ -50,9 +53,11 @@ Set Phone Number
 
 Save Address
     Log Step    Saving billing address
+    Wait Until Element Is Enabled    ${SAVE_ADDRESS_BUTTON}    ${TIMEOUT}
     Click Button    ${SAVE_ADDRESS_BUTTON}
 
 Get Message Text
     Log Step    Reading confirmation message
+    Wait Until Element Is Visible    ${MESSAGE_TEXT}    ${TIMEOUT}
     ${message}=    Get Text    ${MESSAGE_TEXT}
     RETURN    ${message}
