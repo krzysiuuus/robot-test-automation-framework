@@ -64,7 +64,7 @@ pipeline {
                         -w ${WORKSPACE} \
                         robot-test-framework \
                         -d results/ui \
-                        --variable BROWSER:${BROWSER ?: 'Chrome'} \
+                        --variable BROWSER:${BROWSER:-Chrome} \
                         --listener RetryFailed:1 \
                         --listener allure_robotframework:results/ui/allure \
                         page_object_pattern/tests
