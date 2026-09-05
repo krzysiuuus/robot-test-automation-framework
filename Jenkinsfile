@@ -44,6 +44,7 @@ pipeline {
                         -w ${WORKSPACE} \
                         robot-test-framework \
                         -d results/api \
+                        --name "API Tests" \
                         --listener allure_robotframework:results/api/allure \
                         api_tests/tests
 
@@ -64,6 +65,7 @@ pipeline {
                         -w ${WORKSPACE} \
                         robot-test-framework \
                         -d results/ui \
+                        --name "UI Tests" \
                         --variable BROWSER:${BROWSER:-Chrome} \
                         --listener RetryFailed:1 \
                         --listener allure_robotframework:results/ui/allure \
